@@ -3,27 +3,29 @@
 @section('title', 'Products')
 
 @section('content')
-<div class="container">
-    <h1>Our Products</h1>
-    <div class="products-grid">
-        <div class="product-card">
-            <img src="{{ asset('images/product1.jpg') }}" alt="Product 1">
-            <h3>Product 1</h3>
-            <p>$99.99</p>
-            <a href="{{ url('/product-details') }}" class="btn">View Details</a>
-        </div>
-        <div class="product-card">
-            <img src="{{ asset('images/product2.jpg') }}" alt="Product 2">
-            <h3>Product 2</h3>
-            <p>$149.99</p>
-            <a href="{{ url('/product-details') }}" class="btn">View Details</a>
-        </div>
-        <div class="product-card">
-            <img src="{{ asset('images/product3.jpg') }}" alt="Product 3">
-            <h3>Product 3</h3>
-            <p>$199.99</p>
-            <a href="{{ url('/product-details') }}" class="btn">View Details</a>
-        </div>
-    </div>
-</div>
+<h1>All Products</h1>
+
+@unless(count($products))
+<p>No products currently available</p>
+@else
+<ul>
+    @foreach($products as $product)
+    <li>
+        #{{ $loop->index + 1 }} - {{ $product['name'] }} ({{ $product['price'] }} USD)
+
+        @if($product['on_sale'])
+        <span style="color:red;">Sale!</span>
+        @else
+        <span>Regular Price</span>
+        @endif
+
+        <p>{{ $product['description'] }}</p>
+
+        @if($loop->first)
+        <strong>🔥 Featured Product</strong>
+        @endif
+    </li>
+    @endforeach
+</ul>
+@endunless
 @endsection
